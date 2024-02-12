@@ -1,2 +1,6 @@
-# eegproject
-Scripts and Materials for Project Seminar Course (Experiments in Cognitive Neurosience)
+# EEG Project Seminar Documents and Scripts
+
+## Course Description 
+Description here.
+
+##
