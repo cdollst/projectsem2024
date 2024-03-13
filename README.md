@@ -41,6 +41,6 @@ This folder contains all reading materials.
 
 ## Contact information 
 You can contact Dr. Ruel by email at alexa.ruel@uni-hamburg.de for any quesitions.
-Note that you can also contact your student tutor, Paul Schreiner at paul.schreiner-2@studium.uni-hamburg.de for questions.
+Note that you can also contact your student tutor, Paul Schreiner at  for questions.
 
 Office hours will only be offered on request. 
