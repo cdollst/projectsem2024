@@ -56,7 +56,7 @@ for id = subjects
     EEG = pop_saveset(EEG, fileName, pathName2);
 end
 
-%% 3. Visual Inspection to Check & Deal with bad channels & interpolate channels & reject bad data
+%% 3. Visual Inspection to Check & Deal with bad channels
 % There are many ways to check for and reject bad channels.
 % Check the EEGLAB tutorial manual for the different methods.
 % Recommended: visual inspection per participant, and interpolate bad channels. Keep note below of which channels and how many per subjectyou interpolate so you can decide if you should reject the participant overall.
@@ -64,8 +64,7 @@ end
 % Check S. Luck book for recommendations regarding when to exclude a subject
 % Scrolling through your data will also help you see how good or bad your data are, and help guide you in the next steps!
 
-% comment everything!!!!
-% example of a interpolated channels comment: 2001 - none
+
 
 
 
