@@ -15,7 +15,7 @@ for id = subjects
     id = string(id); 
     disp(id)
 
-    pathName0 = '/Users/colleen/Desktop/SoSe 24/Project/eeg data';
+    pathName0 = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data';
 
     x = convertCharsToStrings(id{1});
     origName = strcat('bus_task_version2_', x,'.vhdr');
@@ -29,7 +29,7 @@ for id = subjects
 
     EEG.setname= strcat(id{1});
     fileName = strcat(id{1},'_filtered_resampled.set');
-    pathName1 = '/Users/colleen/Desktop/SoSe 24/Project/eeg data';
+    pathName1 = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data';
     EEG = pop_saveset(EEG, fileName, pathName1);
 
 end
@@ -45,14 +45,14 @@ for id = subjects
     id = string(id); % convert the variable id to string
     disp(id)
 
-    pathName = '/Users/colleen/Desktop/SoSe 24/Project/eeg data';
+    pathName = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data';
     EEG = pop_loadset(strcat(id{1}, '_filtered_resampled.set'), pathName);
     EEG = pop_reref( EEG, 20,'keepref','on'); %keepref keeps the original reference when reref to 20
 
 %save .set file with components rejected to separate folder
     EEG.setname= strcat(id{1});
     fileName = strcat(id{1},'_02_reref.set');
-    pathName2 = '/Users/colleen/Desktop/SoSe 24/Project/eeg data';
+    pathName2 = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data';
     EEG = pop_saveset(EEG, fileName, pathName2);
 end
 
@@ -80,29 +80,35 @@ for id = subjects
     id = string(id);
     disp(id)
   
-    pathName1 = '';
-    pathName2 = ''; 
+    pathName1 = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data';
+    pathName2 = '/Users/colleen/Desktop/SoSe 24/Project/eeg-data'; 
 
 
     FilteredName = strcat(id{1}, '_02_reref.set');
-    EEG.setname=strcat(id, '_02_reref.set');
+    EEG.setname=strcat(id, '_02_reref.set'); % name of the file in EEG structure
 
 
     EEG = pop_loadset(FilteredName,pathName1);
 
 
-    EpochLength = []; % in seconds
+    EpochLength = [-0.5 1]; % epoch length in seconds, don't add a comma, just a space to separate
     
-    % epoching
-    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93' }, EpochLength, 'epochinfo', 'yes');
+    % epoching; this step is the only step epoching the data
+    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93' }, EpochLength, 'epochinfo', 'yes'); % the S's are the triggers, the numbers correspond the triggers that are sent when house2 (after the choice) shows up for the participant, ontrigger in the task is just one number; epochinfo is all information relating to the epoch
+
+    % S = stimulus
 
     % baseline removal
-    EEG = pop_rmbase( EEG, []); % in ms
+    EEG = pop_rmbase( EEG, [-500 0]); % in ms, note that this is milliseconds while the epoch length is seconds!
+
+    % now we have our epochs and they're baseline corrected
+    % now we add tags/names for the epochs
+    % adding tags now helps us with averaging later
 
     for i= 1:length(EEG.epoch)
 
         %mark each epoch for grandaveraging step
-        I0=find([EEG.epoch(i).eventlatency{:}]==0); % Locking event (stimulus)
+        I0=find([EEG.epoch(i).eventlatency{:}]==0); % Locking event (stimulus); based on the number of the epoch, what does it assign?
         if strcmp(EEG.epoch(i).eventtype(I0), 'S 40')
             EEG.epoch(i).condition = 'oddball';
             EEG.epoch(i).trialtype = 'assoc1';
@@ -177,7 +183,7 @@ for id = subjects
      end
     end
 
-    EEG.setname= strcat(id, '_04_epoched');
+    EEG.setname= strcat(id, '_04_epoched'); % new internal name within EEGlab
     fileName = strcat(id{1},'_04_epoched.set');
     EEG = pop_saveset( EEG, fileName, pathName2);
 

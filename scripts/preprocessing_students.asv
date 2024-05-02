@@ -56,7 +56,7 @@ for id = subjects
     EEG = pop_saveset(EEG, fileName, pathName2);
 end
 
-%% 3. Visual Inspection to Check & Deal with bad channels
+%% 3. Visual Inspection to Check & Deal with bad channels & interpolate channels & reject bad data
 % There are many ways to check for and reject bad channels.
 % Check the EEGLAB tutorial manual for the different methods.
 % Recommended: visual inspection per participant, and interpolate bad channels. Keep note below of which channels and how many per subjectyou interpolate so you can decide if you should reject the participant overall.
@@ -64,7 +64,8 @@ end
 % Check S. Luck book for recommendations regarding when to exclude a subject
 % Scrolling through your data will also help you see how good or bad your data are, and help guide you in the next steps!
 
-
+% comment everything!!!!
+% example of a interpolated channels comment: 2001 - none
 
 
 
@@ -79,24 +80,30 @@ for id = subjects
     id = string(id);
     disp(id)
   
-    pathName1 = '';
-    pathName2 = ''; 
+    pathName1 = '/Users/colleen/Desktop/SoSe 24/Project/eeg data';
+    pathName2 = '/Users/colleen/Desktop/SoSe 24/Project/eeg data'; 
 
 
     FilteredName = strcat(id{1}, '_02_reref.set');
-    EEG.setname=strcat(id, '_02_reref.set');
+    EEG.setname=strcat(id, '_02_reref.set'); % name of the file in EEG structure
 
 
     EEG = pop_loadset(FilteredName,pathName1);
 
 
-    EpochLength = []; % in seconds
+    EpochLength = [-0.5 1]; % epoch length in seconds, don't add a comma, just a space to separate
     
-    % epoching
-    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93' }, EpochLength, 'epochinfo', 'yes');
+    % epoching; this step is the only step epoching the data
+    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93' }, EpochLength, 'epochinfo', 'yes'); % the S's are the triggers, the numbers correspond the triggers that are sent when house2 (after the choice) shows up for the participant, ontrigger in the task is just one number; epochinfo is all information relating to the epoch
+
+    % S = stimulus
 
     % baseline removal
-    EEG = pop_rmbase( EEG, []); % in ms
+    EEG = pop_rmbase( EEG, [-500 0]); % in ms, note that this is milliseconds while the epoch length is seconds!
+
+    % now we have our epochs and they're baseline corrected
+    % now we add tags/names for the epochs
+    % adding tags now helps us with averaging later
 
     for i= 1:length(EEG.epoch)
 
@@ -176,7 +183,7 @@ for id = subjects
      end
     end
 
-    EEG.setname= strcat(id, '_04_epoched');
+    EEG.setname= strcat(id, '_04_epoched'); % new internal name within EEGlab
     fileName = strcat(id{1},'_04_epoched.set');
     EEG = pop_saveset( EEG, fileName, pathName2);
 
