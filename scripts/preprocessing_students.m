@@ -94,7 +94,7 @@ for id = subjects
     EpochLength = [-0.5 1]; % epoch length in seconds, don't add a comma, just a space to separate
     
     % epoching; this step is the only step epoching the data
-    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93' }, EpochLength, 'epochinfo', 'yes'); % the S's are the triggers, the numbers correspond the triggers that are sent when house2 (after the choice) shows up for the participant, ontrigger in the task is just one number; epochinfo is all information relating to the epoch
+    EEG = pop_epoch(EEG,{ 'S 40','S 42', 'S 41','S 43', 'S 44','S 46', 'S 45','S 47', 'S 90','S 92', 'S 91','S 93', 'S 38', 'S 48', 'S 39', 'S 49'}, EpochLength, 'epochinfo', 'yes'); % the S's are the triggers, the numbers correspond the triggers that are sent when house2 (after the choice) shows up for the participant, ontrigger in the task is just one number; epochinfo is all information relating to the epoch
 
     % S = stimulus
 
@@ -180,6 +180,33 @@ for id = subjects
             EEG.epoch(i).trialtype = 'assoc2';
             EEG.epoch(i).stimulus = 'house2';
             EEG.epoch(i).surprise = 'rare';
+        
+%I added these four, unsure if they're correct or not...
+
+        elseif strcmp(EEG.epoch(i).eventtype(I0), 'S 38')
+            EEG.epoch(i).condition = 'response';
+            EEG.epoch(i).trialtype = 'early response';
+            EEG.epoch(i).stimulus = 'pre-bus';
+            EEG.epoch(i).surprise = 'common';
+
+        elseif strcmp(EEG.epoch(i).eventtype(I0), 'S 48')
+            EEG.epoch(i).condition = 'response';
+            EEG.epoch(i).trialtype = 'early response';
+            EEG.epoch(i).stimulus = 'pre-bus';
+            EEG.epoch(i).surprise = 'rare';
+
+        elseif strcmp(EEG.epoch(i).eventtype(I0), 'S 39')
+            EEG.epoch(i).condition = 'response';
+            EEG.epoch(i).trialtype = 'no response';
+            EEG.epoch(i).stimulus = 'no-bus choice';
+            EEG.epoch(i).surprise = 'common';
+
+        elseif strcmp(EEG.epoch(i).eventtype(I0), 'S 49')
+            EEG.epoch(i).condition = 'response';
+            EEG.epoch(i).trialtype = 'too slow';
+            EEG.epoch(i).stimulus = 'feedback';
+            EEG.epoch(i).surprise = 'common';
+
      end
     end
 
