@@ -54,6 +54,7 @@ save_data_path = '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-
 
 for id = subjects
     id_str = num2str(id); % convert the variable id to string
+    disp('Processing subject ID: ', id_str)
     
     %Construct the file name for loading
     filtered_file_name = [id_str, '_filtered_resampled.set'];
