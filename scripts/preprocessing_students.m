@@ -64,9 +64,8 @@ for id = subjects
     EEG = pop_loadset('filename', filtered_file_name, 'filepath', filtered_data_path);
 
     %Re-reference the data to the average of the mastoids: channels 20
-    %(left) and 21 (right) !!! UNSURE IF THE RIGHT MASTOID NUMBER IS
-    %CORRECT DOUBLE CHECK WITH TEAMMATES BEFORE RUNNING SCRIPT
-    EEG = pop_reref(EEG,[20 21],'keepref','on'); %keepref keeps the original reference when reref to 20
+    %(left)
+    EEG = pop_reref(EEG, 20,'keepref','on'); %keepref keeps the original reference when reref to 20
 
     %Construct the filename for saving the re-referenced data
     reref_file_name = [id_str, '_02_reref.set'];
