@@ -79,8 +79,7 @@ for id = subjects
     if exist(fullfile(save_data_path, reref_file_name), 'file')
         disp(['File saved successfully for subject ID: ', id_str])
     else
-        disp(['Error: File not saved for subject ID: ', id_str])
-    end
+        disp(['Error: File not saved for subject ID: '])
 end
 
 %% 3. Visual Inspection to Check & Deal with bad channels & interpolate channels & reject bad data
