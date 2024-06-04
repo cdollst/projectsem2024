@@ -9,7 +9,7 @@ eeglab
 %% 1. Re-sample and filter the raw data 
 % First, you need to down sample and filter your data. Since this is the first step, you will be importing the raw data files.
 
-subjects = [1, 2, 3];
+subjects = [1, 2, 3, 4];
 
 %Paths match the dataset location
 raw_data_path = '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar'
@@ -24,7 +24,7 @@ for id = subjects
     disp(orig_file_name)
 
     %Load EEG data
-    EEG = pop_loadbv(raw_data_path, orig_file_name, [],[1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63]);
+    EEG = pop_loadbv(raw_data_path, orig_file_name, [],1:63);
     
     %Resample the data to 500 Hz
     EEG = pop_resample(EEG, 500);
@@ -46,7 +46,7 @@ end
 % In our case, this is the LEFT MASTOID. To remove this bias,we need to re-reference the data to the average of the left and right mastoids.
 
 %Define the subject IDs
-subjects = [1, 2, 3];
+subjects = [1, 2, 3, 4];
 
 %Paths
 filtered_data_path = '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar'
@@ -93,6 +93,10 @@ end
 % comment everything!!!!
 % example of a interpolated channels comment: 2001 - TP10
 
+%Participant 1:
+%Participant 2:P8
+%Participant 3:
+%Participant 4:
 
 
 %% 4. Epoching
