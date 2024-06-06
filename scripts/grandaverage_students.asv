@@ -56,7 +56,8 @@ for i = 1 : length(subjects) %it will run through it a certain number of times d
 %choose into the oddball common and reversal common, randomly in that
 %number of trials, a number that is equal to the trials in the condition
 %then subset data with indices, recheck epoch and label, then check again
-%that all numbers are equal, they should no longer be 90 or 10
+%that all numbers are equal, they should no longer be 90 or 10 %
+%take all 
 
    %count the number of trials (this is still in the loop for one person,
    %you want to know, for each person, how many trials of each type did

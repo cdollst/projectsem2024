@@ -102,8 +102,7 @@ end
 %this visually inspected/rejected dataset is named
 %participant_03_visuallyinspec (e.g.,2_03_visuallyinspec for participant 2)
 %then the channels are interpolated and this dataset should be named (after
-%all necessary channels are interpolated, participant_03_inter, e.g.,
-%2_03_inter for participant 2
+%all necessary channels are interpolated, participant_03_inter, e.g., 
 
 %% 4. Epoching
 % This is where you decide on how and around which trigger to chunk up your data for later averaging.
