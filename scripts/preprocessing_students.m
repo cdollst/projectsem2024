@@ -129,7 +129,7 @@ for id = subjects
     disp(['Processing subject: ', id_str])
     
     % Load the re-referenced EEG data
-    filename = sprintf('%d_03_intertp7tp8.set', id); %change to be the interpolated one...; JUST REALIZED THEY HAVE TO HAVE THE SAME NAME HERE FOR IT TO WORK FOR ALL, CHANGE THE FINAL FILE NAME OF THE INTERPOLATED LAST STEP TO BE THE SAME, THEN INSERT THIS NAME HERE
+    filename = sprintf('%d_03_inter.set', id);
     EEG = pop_loadset('filename', filename, 'filepath', raw_data_path);
     
     % Epoch the data around the defined triggers
@@ -217,7 +217,30 @@ for id = subjects
                 EEG.epoch(i).trialtype = 'assoc2';
                 EEG.epoch(i).stimulus = 'house2';
                 EEG.epoch(i).surprise = 'rare';
+                
+            case 'S 94' %are these right?
+                EEG.epoch(i).condition = 'oddball';
+                EEG.epoch(i).trialtype = 'assoc2';
+                EEG.epoch(i).stimulus = 'house1';
+                EEG.epoch(i).surprise = 'common';
 
+            case 'S 95'
+                EEG.epoch(i).condition = 'oddball';
+                EEG.epoch(i).trialtype = 'assoc2';
+                EEG.epoch(i).stimulus = 'house2';
+                EEG.epoch(i).surprise = 'rare';
+
+            case 'S 96'
+                EEG.epoch(i).condition = 'oddball';
+                EEG.epoch(i).trialtype = 'assoc2';
+                EEG.epoch(i).stimulus = 'house1';
+                EEG.epoch(i).surprise = 'common';
+
+            case 'S 97'
+                EEG.epoch(i).condition = 'oddball';
+                EEG.epoch(i).trialtype = 'assoc2';
+                EEG.epoch(i).stimulus = 'house2';
+                EEG.epoch(i).surprise = 'rare';
             
         end
     end
@@ -237,22 +260,22 @@ for id = subjects
     end
 end
 
+%Participant 2: 480 epochs generated, 9 trials removed, 26 unreferenced
+%events removed = 471 epochs, 624 events, 61 channels per frame, 750 frames
+%per epoch
+
 %% Manually reject "bad epochs"
 % Once again, go through the epochs, and via visual inspection, delete those that are "bad".
 % Keep note below of how many epochs you reject to decide if any subject should be rejected based on this.
 
+%Participant 2: no rejected epochs
 
-
-
-
-
-
-%% 5.  Run the ICA (Independent Component Analysis
+%% 5.  Run the ICA (Independent Component Analysis)
 % Run the independent component analysis.
 % NOTE: this will take some time. Make sure you can let your computer run the ICA uninterupted (including its own sleep/shut down mode)
 % This step simply runs the ICAs, without having you select components or reject them yet.
 
-subjects = [2001]; %do all the datsets together, step by step, run the ICA on all of the datasets at one time
+subjects = [2001]; %do all the datasets together, step by step, run the ICA on all of the datasets at one time
 
 for id = subjects %only one subject here
     id = string(id); 
