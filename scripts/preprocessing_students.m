@@ -218,7 +218,7 @@ for id = subjects
                 EEG.epoch(i).stimulus = 'house2';
                 EEG.epoch(i).surprise = 'rare';
                 
-            case 'S 94' %are these right?
+            case 'S 94'
                 EEG.epoch(i).condition = 'oddball';
                 EEG.epoch(i).trialtype = 'assoc2';
                 EEG.epoch(i).stimulus = 'house1';
@@ -227,13 +227,13 @@ for id = subjects
             case 'S 95'
                 EEG.epoch(i).condition = 'oddball';
                 EEG.epoch(i).trialtype = 'assoc2';
-                EEG.epoch(i).stimulus = 'house2';
+                EEG.epoch(i).stimulus = 'house1';
                 EEG.epoch(i).surprise = 'rare';
 
             case 'S 96'
                 EEG.epoch(i).condition = 'oddball';
                 EEG.epoch(i).trialtype = 'assoc2';
-                EEG.epoch(i).stimulus = 'house1';
+                EEG.epoch(i).stimulus = 'house2';
                 EEG.epoch(i).surprise = 'common';
 
             case 'S 97'
