@@ -79,8 +79,7 @@ for i = 1 : length(subjects) %it will run through it a certain number of times d
             warning(['Subject ' num2str(subjects(i)) ' has fewer than ' num2str(target_n_trials) ' trials for condition ' epochtrans2{nc}]);
 
             %Ensure the subject has the minimum acceptable number of trials
-            %across all conditions, if the number of trials is less than
-            %the target, a warning is issued
+            %across all conditions
             if any(n_trials(i,:)<target_n_trials)
                 error(['Subject ' num2str(subjects(i)) ' does not have enough trials for one or more conditions, adjust "target_n_trials" accordingly.']);
             end
@@ -88,7 +87,7 @@ for i = 1 : length(subjects) %it will run through it a certain number of times d
 
         % save the current subject's data to GrandAverageEEG for subject
         % one, this fills in the matrix where each line goes subject by
-        % subject, this dataset is equalized and has the GrandAverage
+        % subject
         GrandAverageEEG(i,nc,:,:) = mean(EEG.data(:,:,trial_indices),3);
         n_trials(i,nc) = length(trial_indices); % Store the number of trials
     end
