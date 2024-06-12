@@ -265,20 +265,15 @@ end
 %events removed = 471 epochs, 624 events, 61 channels per frame, 750 frames
 %per epoch
 %Participant 3: 501 epochs generated, 13 trials removed, 35 unreferenced
-%events removed = 488 epochs, 638 events, 63 channels per frame, 750 frames
-%per epoch
+%events removed = 488 epochs, 
 
 %% Manually reject "bad epochs"
 % Once again, go through the epochs, and via visual inspection, delete those that are "bad".
 % Keep note below of how many epochs you reject to decide if any subject should be rejected based on this.
 
-%Participant 1: %Rejected for the triggers: S30 - 1, S40 - 5, S34 - 1, S36- 1, S42 - 4, S44 - 2, S46 - 2, S47- 1, S81 - 1, S84 - 2, S96- 1, S93- 1, S94 - 2,
+%Participant 1: %Rejected for the triggers: S30 - 1, S40 - 5, S34 - 1, S36- 1, S42 - 4, S44 - 2, S46 - 2, S47- 1, S81 - 1, S84 - 2, S96- 1, S93- 1, s94 - 2,
 %S96 - 4
 %Participant 2: no rejected epochs
-%Participant 3: S30/S40, S42, S42, S45, S96, S84/S96, S46, S94, S96, S45
-%S34/S44 - 11 trials removed
-
-%Named the dataset with rejected epochs as "participant_04_epochfin"
 
 %% 5.  Run the ICA (Independent Component Analysis)
 % Run the independent component analysis.
@@ -293,7 +288,7 @@ for id = subjects %only one subject here
 
     pathName7 = ''; %retrieves the file
     pathName8 = ''; %saves the new file
-    filename = strcat(id{1},'_04_epochfin.set'); %gets the epoched file from the step before
+    filename = strcat(id{1},'_04_epoched.set'); %gets the epoched file from the step before
 
     EEG = pop_loadset(filename, pathName7);
 
