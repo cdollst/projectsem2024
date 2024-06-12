@@ -111,7 +111,7 @@ end
 % Remember that this should not impede on other stimulus presentation, and if it overlaps with responses, you will need to correct for this.
 
 % Define the subject IDs to process
-subjects = [3];
+subjects = [1, 2, 3, 4];
 
 % Define file paths
 raw_data_path = '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar'; 
