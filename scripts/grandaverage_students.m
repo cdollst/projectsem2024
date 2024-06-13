@@ -7,11 +7,19 @@ eeglab
 %before this script, all epochs are in a mess, all artifacts are removed, we only have chunks of data according to the triggers, we also have labels (i.e., oddball, etc.), we do this to get the
 %average per condition, per trial to create the grand average of that one
 %trial type per condition, we want four categories or lines
+
+%run the grand average more than once to check (she ran hers 3 times) run
+%the grand average 3 times, save it, run the stats on each grand average,
+%each time
 %% 1. Create Grand Average and Equalize Trials;
 
 cd ''%working directory path, direct the pathname to the last preprocessing step data folder, post ICA
 
-subjects = [];%i.e., 2001, 2005 etc., you put all subjects here at once, not just one at a time, you can't move to this script until you finish preprocessing all the data of all the subjects beforehand
+for x = 1:3
+    x=string(x);
+    disp(x)
+
+subjects = [1, 2, 3, 4, 5];%i.e., 2001, 2005 etc., you put all subjects here at once, not just one at a time, you can't move to this script until you finish preprocessing all the data of all the subjects beforehand
 
 %Define the target number of trials
 target_n_trials =  ;%Adjust the number after the equal sign according to our needs, this is the smallest number of trials across conditions and subjects

@@ -42,6 +42,4 @@ writetable(data_table, 'extracted_data_300-400.csv'); %writetable function saves
 disp('Data has been extracted and saved to extracted_data.csv');
 
 %if you open the csv now, everything is separated by commas into one sheet,
-%you can import it into R now, you should have the columns: subject, condition,
-%time_point, and value (for that time point what is the value in
-%micro-volts?)
+%you can import it into R now, o
