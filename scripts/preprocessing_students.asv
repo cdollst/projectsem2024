@@ -379,9 +379,7 @@ for id = subjects
     %Update the setname and save the cleaned dataset
     EEG.setname= strcat(id_str, '_07_ICAdone');
     filename_save = strcat(id_str,'_07_ICAdone.set');
-    EEG = pop_saveset(EEG, 'filename', filename_save, 'filepath', save_data_path);
-
-    disp(['Components removed and dataset saved for subject ID: ', id_str])
+    EEG = pop_saveset(EEG, fileName, pathName2);
 end
 
 % If you made it this far, good job! You are now ready to create a grand average plot to visualise your ERP. :) 
