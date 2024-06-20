@@ -93,11 +93,17 @@ end
 % comment everything!!!!
 % example of a interpolated channels comment: 2001 - TP10
 
-%Participant 1: No bad channels interpolated, but overall messy data
-%across all the channels.
+%Participant 1: No bad channels interpolated, but overall messy data across all the channels
+
 %Participant 2: TP7, TP8 - they pick up on noise but they don't anything
-%Participant 3: P8
-%Participant 4:
+
+%Participant 3: P8 (flat)
+
+%Participant 4: None interpolated
+
+%Participant 5: None interpolated
+
+%Participant 6: None interpolated
 
 %Note on naming conventions for the group: first visually inspected data,
 %this visually inspected/rejected dataset is named
@@ -271,11 +277,14 @@ end
 %events removed = 488 epochs, 638 events, 63 channels per frame, 750 frames
 %per epoch
 
-%Participant 4:
+%Participant 4: 382 epochs generated, 8 trials removed, 21 unreferenced
+%events removed > 374 epochs generated, 495 events, 61 channels per frame, 750 frames per epoch
 
-%Participant 5:
+%Participant 5: 485 epochs generated, 3 trials removed, 8 unreferenced events removed > 481 epochs left, 642 events, 61 channels per frame, 750 frames per epoch > after epoch rejection: 477 epochs
 
-%Participant 6:
+%Participant 6: 484 epochs generated, 7 trials removed, 15 unreferenced
+%events removed = 477 epochs, 623 events, 61 channels per frame, 750 frames
+%per epoch
 
 %% Manually reject "bad epochs"
 % Once again, go through the epochs, and via visual inspection, delete those that are "bad".
@@ -286,14 +295,13 @@ end
 
 %Participant 2: no rejected epochs
 
-%Participant 3: S30/S40, S42, S42, S45, S96, S84/S96, S46, S94, S96, S45
-%S34/S44 - 11 trials removed
+%Participant 3: S30/S40, S42, S42, S45, S96, S84/S96, S46, S94, S96, S45, S34/S44 - 11 trials removed
 
-%Participant 4:
+%Participant 4: no rejected epochs
 
-%Participant 5:
+%Participant 5: 4 rejected epochs that looked excessively jiggly or had a really obvious short spike somewhere
 
-%Participant 6:
+%Participant 6: S42, S42, S43, S45, S46, S91, S93, S94, S96, S96 - 10 trials removed
 
 %Named the dataset with rejected epochs as "participant_04_epochfin"
 
@@ -383,5 +391,17 @@ for id = subjects
 
     disp(['Components removed and dataset saved for subject ID: ', id_str])
 end
+
+%Participant 1:
+
+%Participant 2:
+
+%Participant 3:
+
+%Participant 4: Removed 25 components
+
+%Participant 5: Removed 32 components
+
+%Participant 6: Removed 19 components
 
 % If you made it this far, good job! You are now ready to create a grand average plot to visualise your ERP. :) 
