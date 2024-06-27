@@ -267,7 +267,8 @@ for id = subjects
     end
 end
 
-%Participant 1:
+%Participant 1: 458 epochs generated, 8 Trials removed, 18 unreferenced
+%Events removed = 429 epochs, 560 events, 61 channels per frame, 750 frames
 
 %Participant 2: 480 epochs generated, 9 trials removed, 26 unreferenced
 %events removed = 471 epochs, 624 events, 61 channels per frame, 750 frames
@@ -392,11 +393,11 @@ for id = subjects
     disp(['Components removed and dataset saved for subject ID: ', id_str])
 end
 
-%Participant 1:
+%Participant 1: Removed 24 components
 
-%Participant 2:
+%Participant 2: Removed 16 components
 
-%Participant 3:
+%Participant 3: Removed 17 components
 
 %Participant 4: Removed 25 components
 

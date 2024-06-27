@@ -1,5 +1,3 @@
-eeglab
-
 %% About
 % This script was created by Dr. Alexa Ruel for educational purposes in the context of the Project Seminar Course at the University of Hamburg and should not be used without direct authorization from Dr. Ruel
 % Last updated on: April 24, 2024
@@ -10,7 +8,7 @@ eeglab
 %trial type per condition, we want four categories or lines
 
 % We have 4 conditions (common, oddball, rare, reversal-learning). We get 4
-% averages (1 for each condition), then we averade those for all
+% averages (1 for each condition), then we average those for all
 % participants 
 
 %%We sampled [collected data] at 500 Hz. That was then transfered to
@@ -22,16 +20,16 @@ eeglab
 
 %% 1. Create Grand Average;
 
-cd 'C:\Users\mirar\Desktop\ProjektseminarMatlabData' % where data is saved (folder with last preprocessing step) 
+cd '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar' % where data is saved (folder with last preprocessing step) 
 
 %Initializing loop to create grand averages, the loop will run 3 times
 for x = 1:3
     x= string(x); 
     disp(x)
 
-subjects = [1:6]; % all the subject numbers have to be entered here, you put all subjects here at once, not just one at a time, you can't move to this script until you finish preprocessing all the data of all the subjects beforehand
+subjects = [1, 2, 4, 5, 6]; % all the subject numbers have to be entered here, you put all subjects here at once, not just one at a time, you can't move to this script until you finish preprocessing all the data of all the subjects beforehand
 
-GrandAverageEEG = nan(length(subjects), 4, 63, 750); %Grandaverage 4D: subjects, conditions, channels, time; you create the matrix and then fill it in the next loops; nan means 'not a number', the size of the matrix has 4 dimensions 1., how many subjects you have inserted up above (i.e., insert number after length(), 2., conditions (4 different averages/lines), 3., channels or electrodes (63 we don't include the reference electrode (the 64th electrode in this)), 4., the length of the epoch, or the time window/duration of the epoch (note that we might have to change this number if it gives us an error)
+GrandAverageEEG = nan(length(subjects), 4, 61, 750); %Grandaverage 4D: subjects, conditions, channels, time; you create the matrix and then fill it in the next loops; nan means 'not a number', the size of the matrix has 4 dimensions 1., how many subjects you have inserted up above (i.e., insert number after length(), 2., conditions (4 different averages/lines), 3., channels or electrodes (63 we don't include the reference electrode (the 64th electrode in this)), 4., the length of the epoch, or the time window/duration of the epoch (note that we might have to change this number if it gives us an error)
 %the only number we change up above is the number of subjects, everything
 %else should stay the same!
 %nan = not a number
@@ -104,10 +102,10 @@ for i = 1 : length(subjects) %it will run through it a certain number of times d
 %to randomly sample. 
 
 %Find indices of conditions within "EpochNames"
-OBCOM =	find(EpochNames == "oddball_common");
-OBRARE = find(EpochNames == "oddball_rare");
-RVCOM = find(EpochNames == "reversal_common");
-RVRARE = find(EpochNames == "reversal_rare");
+OBCOM = find(strcmp(EpochNames,"oddball_common"));
+RVCOM = find(strcmp(EpochNames, "reversal_common"));
+OBRARE = find(strcmp(EpochNames, "oddball_rare"));
+RVRARE = find(strcmp(EpochNames,"reversal_rare"));
 
 %Randomly sample epochs to equalize the number of trials across conditions 
 IndOBCOM = randsample(OBCOM, length(OBRARE));
@@ -123,7 +121,7 @@ EpochNames = {};
 
 %Fill grand average with means per condition, iterating through each epoch
 %type, counts the number of trials, and adds the mean data for that condition to `GrandAverageEEG`.
-epochtrans2 = ('oddball_common' 'oddball_rare' 'reversal_common' 'reversal_rare');
+epochtrans2 = {'oddball_common' 'oddball_rare' 'reversal_common' 'reversal_rare'};
     for nc = 1 : length(epochtrans2)
         n_trials(i,nc) = sum(sum(strcmpi(EpochNames,epochtrans2{nc}))); 
 
@@ -132,9 +130,10 @@ epochtrans2 = ('oddball_common' 'oddball_rare' 'reversal_common' 'reversal_rare'
     end
 
 %Save data by creating a save path using 'x' and save the GrandAverageEEG matrix to a mat file    
-path = stract('C:\Users\mirar\Desktop\ProjektseminarMatlabData', x, '.mat'); 
+path = strcat('/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar', x, '.mat'); 
 save(path, "GrandAverageEEG")
 
+end 
 end 
 
 %Number of epochs from the rare trials should be >30. Also, number of rare
