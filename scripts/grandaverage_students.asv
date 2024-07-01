@@ -151,11 +151,11 @@ epochtrans2 = {'oddball_common' 'oddball_rare' 'reversal_common' 'reversal_rare'
     end
 
 %Save data by creating a save path using 'x' and save the GrandAverageEEG matrix to a mat file    
-path = strcat('/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar/GrandAverageEEG', x, '.mat'); %comment out for running each individual grandaverage 
-save(path, "GrandAverageEEG") %comment out for running each individual grandaverage
+path = strcat('/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar/GrandAverageEEG', x, '.mat'); 
+save(path, "GrandAverageEEG")
 
 end 
-end %comment out for running each individual grandaverage
+end 
 
 %Number of epochs from the rare trials should be >30. Also, number of rare
 %and common trials should also not differ too much in theory. Thats why we
