@@ -151,11 +151,11 @@ epochtrans2 = {'oddball_common' 'oddball_rare' 'reversal_common' 'reversal_rare'
     end
 
 %Save data by creating a save path using 'x' and save the GrandAverageEEG matrix to a mat file    
-path = strcat('/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar/GrandAverageEEG', x, '.mat'); 
-save(path, "GrandAverageEEG")
+path = strcat('/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar/GrandAverageEEG', x, '.mat'); %comment out for running each individual grandaverage 
+save(path, "GrandAverageEEG") %comment out for running each individual grandaverage
 
 end 
-end 
+end %comment out for running each individual grandaverage
 
 %Number of epochs from the rare trials should be >30. Also, number of rare
 %and common trials should also not differ too much in theory. Thats why we
@@ -273,6 +273,38 @@ ylabel('uV')
 xlim([-200 1000])
 
 %%
+%Difference value plot for Fz
+
+%Define electrode of interest
+elec_fz = 2; %Fz
+
+%perform the difference calculations
+ob_diff = OB_RARE_FZ - OB_COMMON_FZ;
+rev_diff = REV_RARE_FZ - REV_COMMON_FZ;
+common_diff = REV_COMMON_FZ - OB_COMMON_FZ;
+rare_diff = REV_RARE_FZ - OB_RARE_FZ;
+
+%Plot condition difference values
+figure;
+plot(EEG.times, ob_diff, 'b', EEG.times, rev_diff, 'r');
+title('Condition Difference at Fz');
+set(gca, 'YDir', 'normal');
+legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%Plot trial type difference values
+figure;
+plot(EEG.times, common_diff, 'b', EEG.times, rare_diff, 'r');
+title('Trial Type Difference at Fz');
+set(gca, 'YDir', 'normal');
+legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%%
 %Cz:
 % Define Electrode of Interest
 elec_cz = 22; % Cz
@@ -298,6 +330,38 @@ ylabel('uV')
 xlim([-200 1000])
 
 %%
+%Difference value plot for Cz
+
+%Define electrode of interest
+elec_cz = 22; %Cz
+
+%perform the difference calculations
+ob_diff = OB_RARE_CZ - OB_COMMON_CZ;
+rev_diff = REV_RARE_CZ - REV_COMMON_CZ;
+common_diff = REV_COMMON_CZ - OB_COMMON_CZ;
+rare_diff = REV_RARE_CZ - OB_RARE_CZ;
+
+%Plot condition difference values
+figure;
+plot(EEG.times, ob_diff, 'b', EEG.times, rev_diff, 'r');
+title('Condition Difference at Cz');
+set(gca, 'YDir', 'normal');
+legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%Plot trial type difference values
+figure;
+plot(EEG.times, common_diff, 'b', EEG.times, rare_diff, 'r');
+title('Trial Type Difference at Cz');
+set(gca, 'YDir', 'normal');
+legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%%
 %Pz:
 % Define Electrode of Interest
 elec_pz = 12; % Pz
@@ -321,6 +385,37 @@ legend('Oddball Common', 'Oddball Rare', 'Reversal Common', 'Reversal Rare')
 xlabel('time (ms)')
 ylabel('uV')
 xlim([-200 1000])
+%%
+%Difference value plot for Pz
+
+%Define electrode of interest
+elec_pz = 12; %Pz
+
+%perform the difference calculations
+ob_diff = OB_RARE_PZ - OB_COMMON_PZ;
+rev_diff = REV_RARE_PZ - REV_COMMON_PZ;
+common_diff = REV_COMMON_PZ - OB_COMMON_PZ;
+rare_diff = REV_RARE_PZ - OB_RARE_PZ;
+
+%Plot condition difference values
+figure;
+plot(EEG.times, ob_diff, 'b', EEG.times, rev_diff, 'r');
+title('Condition Difference at Fz');
+set(gca, 'YDir', 'normal');
+legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%Plot trial type difference values
+figure;
+plot(EEG.times, common_diff, 'b', EEG.times, rare_diff, 'r');
+title('Trial Type Difference at Fz');
+set(gca, 'YDir', 'normal');
+legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
 %%
 
 %ROI Analysis using Cz, Fz, and Pz; I'm unsure if we want this so I'm just going to make it anyways
@@ -375,6 +470,9 @@ common_diff = REV_COMMON - OB_COMMON;
 
 rare_diff = REV_RARE - OB_RARE; 
 %rare_diff = squeeze(mean(rare_diff,1));
+
+%Create association
+EEG = pop_loadset('2_07_ICAdone.set');
 
 % condition difference values
 plot (EEG.times, ob_diff, EEG.times, rev_diff)
