@@ -224,9 +224,9 @@ end %comment out for running each individual grandaverage
 % Pz corresponds to the number 12
 
 %Define electrodes
-%elec = 2; %Fz
-%elec = 22; %Cz
-%elec = 12; %Pz
+%elec = 2; %Fz; Frontal
+%elec = 22; %Cz; Central
+%elec = 12; %Pz; Parietal (really expect an effect here)
 
 %save the plots and then label them, so that you know what it actually is!
 %GA = subjects, conditions, electrodes, time -> you want the average
@@ -400,7 +400,7 @@ rare_diff = REV_RARE_PZ - OB_RARE_PZ;
 %Plot condition difference values
 figure;
 plot(EEG.times, ob_diff, 'b', EEG.times, rev_diff, 'r');
-title('Condition Difference at Fz');
+title('Condition Difference at Pz');
 set(gca, 'YDir', 'normal');
 legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
 xlabel('Time (ms)');
@@ -410,7 +410,7 @@ xlim([-200 1000]);
 %Plot trial type difference values
 figure;
 plot(EEG.times, common_diff, 'b', EEG.times, rare_diff, 'r');
-title('Trial Type Difference at Fz');
+title('Trial Type Difference at Pz');
 set(gca, 'YDir', 'normal');
 legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
 xlabel('Time (ms)');
@@ -446,6 +446,38 @@ xlabel('time (ms)')
 ylabel('uV')
 xlim([-200 1000])
 
+%%
+%Difference value plot for ROI
+
+%Define electrodes of interest
+elec_roi = [2, 22, 12]; % Fz, Cz, Pz
+
+%perform the difference calculations
+ob_diff = OB_RARE_ROI - OB_COMMON_ROI;
+rev_diff = REV_RARE_ROI - REV_COMMON_ROI;
+common_diff = REV_COMMON_ROI - OB_COMMON_ROI;
+rare_diff = REV_RARE_ROI - OB_RARE_ROI;
+
+%Plot condition difference values
+figure;
+plot(EEG.times, ob_diff, 'b', EEG.times, rev_diff, 'r');
+title('Condition Difference at ROI Fz, Cz, Pz');
+set(gca, 'YDir', 'normal');
+legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
+%Plot trial type difference values
+figure;
+plot(EEG.times, common_diff, 'b', EEG.times, rare_diff, 'r');
+title('Trial Type Difference at ROI Fz, Cz, Pz');
+set(gca, 'YDir', 'normal');
+legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
+xlabel('Time (ms)');
+ylabel('uV');
+xlim([-200 1000]);
+
 %do this 4 times for each of the conditions if you want 4 plots. colors: b
 %blue, --b dashed blue, r red, --r dashed red; YDir - have the y axis
 %normally and not reversely plotted
@@ -456,37 +488,37 @@ xlim([-200 1000])
 %SAVE it :) as a matab figure and a png. -> can still edit it and put it in
 %a ppt. 
 
-%% Difference Value Plots.
-%Makes a difference wave, the range is smaller
-
-ob_diff = OB_RARE - OB_COMMON ; %create a difference between the two
-%ob_diff = squeeze(mean(ob_diff,1)); 
-
-rev_diff = REV_RARE - REV_COMMON ; 
-%rev_diff = squeeze(mean(rev_diff,1));
-
-common_diff = REV_COMMON - OB_COMMON;
-%common_diff = squeeze(mean(common_diff,1));
-
-rare_diff = REV_RARE - OB_RARE; 
-%rare_diff = squeeze(mean(rare_diff,1));
-
-%Create association
-EEG = pop_loadset('2_07_ICAdone.set');
-
-% condition difference values
-plot (EEG.times, ob_diff, EEG.times, rev_diff)
-title(['EEG at ' EEG.chanlocs(elec).labels]) 
-set(gca, 'YDir')
-legend %blue line is average of oddball common oddball rare, red line is reversal common reversal rare
-xlabel('time'); ylabel('EEG')
-
-% trial type difference values
-plot (EEG.times, common_diff, EEG.times, rare_diff)
-title(['EEG at ' EEG.chanlocs(elec).labels])
-set(gca, 'YDir')
-legend
-xlabel('time'); ylabel('EEG')
+% %% Difference Value Plots.
+% %Makes a difference wave, the range is smaller
+% 
+% ob_diff = OB_RARE - OB_COMMON ; %create a difference between the two
+% %ob_diff = squeeze(mean(ob_diff,1)); 
+% 
+% rev_diff = REV_RARE - REV_COMMON ; 
+% %rev_diff = squeeze(mean(rev_diff,1));
+% 
+% common_diff = REV_COMMON - OB_COMMON;
+% %common_diff = squeeze(mean(common_diff,1));
+% 
+% rare_diff = REV_RARE - OB_RARE; 
+% %rare_diff = squeeze(mean(rare_diff,1));
+% 
+% %Create association
+% EEG = pop_loadset('2_07_ICAdone.set');
+% 
+% % condition difference values
+% plot (EEG.times, ob_diff, EEG.times, rev_diff)
+% title(['EEG at ' EEG.chanlocs(elec).labels]) 
+% set(gca, 'YDir')
+% legend %blue line is average of oddball common oddball rare, red line is reversal common reversal rare
+% xlabel('time'); ylabel('EEG')
+% 
+% % trial type difference values
+% plot (EEG.times, common_diff, EEG.times, rare_diff)
+% title(['EEG at ' EEG.chanlocs(elec).labels])
+% set(gca, 'YDir')
+% legend
+% xlabel('time'); ylabel('EEG')
 
 
 %% 3. Topographies
@@ -497,6 +529,17 @@ xlabel('time'); ylabel('EEG')
 %times, for each of those conditions
 
 %timewindow300_400 = 401.451 %figure out the appropriate time windows according to matlab before running this
+%Single Electrode Analysis:
+%Fz: 300-500 (note: Nassar used this time window for FCz, since we only
+%have Fz and Cz, we should use a similar time window for Fz and Cz?) ->
+% for us: 140-300
+%Pz: (not explicitly listed in Nassar, they used sliding window) -> for us: 186-436
+%Cz: 300-500 -> for us: 190-416
+
+%Define time windows
+%Fz: 140-300ms ; 321-401
+%Pz: 186-436
+%Cz: 190-416
 
 % ODDBALL COMMON
 OB_COMMON_TOPO = GrandAverageEEG(:,1,:,:); %take the grandaverage, all subjects, then select the condition, all electrodes, and all time points

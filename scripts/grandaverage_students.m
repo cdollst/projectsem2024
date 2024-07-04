@@ -224,9 +224,9 @@ end %comment out for running each individual grandaverage
 % Pz corresponds to the number 12
 
 %Define electrodes
-%elec = 2; %Fz
-%elec = 22; %Cz
-%elec = 12; %Pz
+%elec = 2; %Fz; Frontal
+%elec = 22; %Cz; Central
+%elec = 12; %Pz; Parietal (really expect an effect here)
 
 %save the plots and then label them, so that you know what it actually is!
 %GA = subjects, conditions, electrodes, time -> you want the average
@@ -528,55 +528,136 @@ xlim([-200 1000]);
 %to a heatmap. There are four parts to it, the same thing is done, four
 %times, for each of those conditions
 
-%timewindow300_400 = 401.451 %figure out the appropriate time windows according to matlab before running this
+%timewindow300_400 = 401:451 %figure out the appropriate time windows according to matlab before running this
+%Single Electrode Analysis:
+%Fz: 300-500 (note: Nassar used this time window for FCz, since we only
+%have Fz and Cz, we should use a similar time window for Fz and Cz?) ->
+% for us: 140-300
+%Pz: (not explicitly listed in Nassar, they used sliding window) -> for us: 186-436
+%Cz: 300-500 -> for us: 190-416
+
+%Define time windows
+%I'm really just going to focus on Pz/P300 for now, if I have time I'll try to
+%explore
+%Fz: 140-300ms = 321:401
+%Pz: 186-436 ; 344-469; 401:451
+%Cz: 190-416 ; 346-459; 
+
+timewindow_pz = 401:451;
+
+% Define the time window
+timewindow300_400 = timewindow_pz;
 
 % ODDBALL COMMON
-OB_COMMON_TOPO = GrandAverageEEG(:,1,:,:); %take the grandaverage, all subjects, then select the condition, all electrodes, and all time points
-OB_COMMON_TOPO = squeeze(mean(OB_COMMON_TOPO,1)); % squeezes the 4D matrix into a channels by timepoints matrix. So squeezes across all subjects (means) or dimension 1; if you want 300 to 400 across all electrodes averaged across subjects, and all electrodes, you mean across subjects and squeeze
-OB_COMMON_TOPO = OB_COMMON_TOPO(:, timewindow300_400); % selects only the time range we are interested in for the topography (window of analysis); write out all electrodes for the whole topography, the other two numbers are the timepoints according to matlab in ms - you know what to put here based off of your EEG structure in the workspace -> go to times -> the lower boundary is on the far left most upward cell, the upper boundary is the last, most upward cell listed NOTE: the timepoints you have to refer to are the numbers in the title of the column in matlab... (e.g., timepoint 300 corresponds to 401 in the title of the column, so you would enter that here) 
-
-%average the voltages across the channels
-OB_COMMON_TOPO = mean(OB_COMMON_TOPO,2); %topo = topographies
-
-% change the size of the matrix
-OB_COMMON_TOPO = OB_COMMON_TOPO';
-
-%squeezes across participants, just time window you're interested in,
-%averaged across channels, and then transposes the matrix; we select all
-%electrodes in the time window we want for the topography
+OB_COMMON_TOPO = GrandAverageEEG(:, 1, :, :);  % take the grandaverage, all subjects, condition 1, all electrodes, all time points
+OB_COMMON_TOPO = squeeze(mean(OB_COMMON_TOPO, 1));  % squeeze the 4D matrix into a channels-by-timepoints matrix, averaging across subjects
+OB_COMMON_TOPO = OB_COMMON_TOPO(:, timewindow300_400);  % select only the time range we are interested in for the topography
+OB_COMMON_TOPO = mean(OB_COMMON_TOPO, 2);  % average the voltages across the channels
+OB_COMMON_TOPO = OB_COMMON_TOPO';  % adjust the size of the matrix for plotting
 
 % REVERSAL COMMON
-REV_COMMON_TOPO = GrandAverageEEG(:,3,:,:);
-REV_COMMON_TOPO = squeeze(mean(REV_COMMON_TOPO,1));
+REV_COMMON_TOPO = GrandAverageEEG(:, 3, :, :);
+REV_COMMON_TOPO = squeeze(mean(REV_COMMON_TOPO, 1));
 REV_COMMON_TOPO = REV_COMMON_TOPO(:, timewindow300_400);
-
-%average the voltages across electrodes
-REV_COMMON_TOPO = mean(REV_COMMON_TOPO,2);
-
-% change the size of the matrix 
-REV_COMMON_TOPO = REV_COMMON_TOPO'; 
+REV_COMMON_TOPO = mean(REV_COMMON_TOPO, 2);
+REV_COMMON_TOPO = REV_COMMON_TOPO';
 
 % ODDBALL RARE 
-OB_RARE_TOPO = GrandAverageEEG(:,2,:,:);
-OB_RARE_TOPO = squeeze(mean(OB_RARE_TOPO,1));
+OB_RARE_TOPO = GrandAverageEEG(:, 2, :, :);
+OB_RARE_TOPO = squeeze(mean(OB_RARE_TOPO, 1));
 OB_RARE_TOPO = OB_RARE_TOPO(:, timewindow300_400);
-
-%average the voltages across channels
-OB_RARE_TOPO = mean(OB_RARE_TOPO,2);
-
-% change the size of the matrix 
-OB_RARE_TOPO = OB_RARE_TOPO'; 
+OB_RARE_TOPO = mean(OB_RARE_TOPO, 2);
+OB_RARE_TOPO = OB_RARE_TOPO';
 
 % REVERSAL RARE
-REV_RARE_TOPO = GrandAverageEEG(:,4,:,:); 
-REV_RARE_TOPO = squeeze(mean(REV_RARE_TOPO,1));
+REV_RARE_TOPO = GrandAverageEEG(:, 4, :, :); 
+REV_RARE_TOPO = squeeze(mean(REV_RARE_TOPO, 1));
 REV_RARE_TOPO = REV_RARE_TOPO(:, timewindow300_400);
+REV_RARE_TOPO = mean(REV_RARE_TOPO, 2);
+REV_RARE_TOPO = REV_RARE_TOPO';
 
-%average the voltages across channels
-REV_RARE_TOPO = mean(REV_RARE_TOPO,2);
+% Plot Topographies
 
-% change the size of the matrix
-REV_RARE_TOPO = REV_RARE_TOPO'; 
+% Create a figure for plotting the topographies
+figure;
+
+% Subplot for Oddball Common
+subplot(2, 2, 1);
+topoplot(OB_COMMON_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+title('Oddball Common');
+colorbar;
+
+% Subplot for Reversal Common
+subplot(2, 2, 2);
+topoplot(REV_COMMON_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+title('Reversal Common');
+colorbar;
+
+% Subplot for Oddball Rare
+subplot(2, 2, 3);
+topoplot(OB_RARE_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+title('Oddball Rare');
+colorbar;
+
+% Subplot for Reversal Rare
+subplot(2, 2, 4);
+topoplot(REV_RARE_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+title('Reversal Rare');
+colorbar;
+
+% Set the overall title for the figure
+sgtitle('Topographies for each condition (Time Window: 300-400 ms)');
+
+% Adjust the figure size and position if necessary
+set(gcf, 'Position', [100, 100, 1200, 600]);
+
+% % ODDBALL COMMON
+% OB_COMMON_TOPO = GrandAverageEEG(:,1,:,:); %take the grandaverage, all subjects, then select the condition, all electrodes, and all time points
+% OB_COMMON_TOPO = squeeze(mean(OB_COMMON_TOPO,1)); % squeezes the 4D matrix into a channels by timepoints matrix. So squeezes across all subjects (means) or dimension 1; if you want 300 to 400 across all electrodes averaged across subjects, and all electrodes, you mean across subjects and squeeze
+% OB_COMMON_TOPO = OB_COMMON_TOPO(:, timewindow300_400); % selects only the time range we are interested in for the topography (window of analysis); write out all electrodes for the whole topography, the other two numbers are the timepoints according to matlab in ms - you know what to put here based off of your EEG structure in the workspace -> go to times -> the lower boundary is on the far left most upward cell, the upper boundary is the last, most upward cell listed NOTE: the timepoints you have to refer to are the numbers in the title of the column in matlab... (e.g., timepoint 300 corresponds to 401 in the title of the column, so you would enter that here) 
+% 
+% %average the voltages across the channels
+% OB_COMMON_TOPO = mean(OB_COMMON_TOPO,2); %topo = topographies
+% 
+% % change the size of the matrix
+% OB_COMMON_TOPO = OB_COMMON_TOPO';
+% 
+% %squeezes across participants, just time window you're interested in,
+% %averaged across channels, and then transposes the matrix; we select all
+% %electrodes in the time window we want for the topography
+% 
+% % REVERSAL COMMON
+% REV_COMMON_TOPO = GrandAverageEEG(:,3,:,:);
+% REV_COMMON_TOPO = squeeze(mean(REV_COMMON_TOPO,1));
+% REV_COMMON_TOPO = REV_COMMON_TOPO(:, timewindow300_400);
+% 
+% %average the voltages across electrodes
+% REV_COMMON_TOPO = mean(REV_COMMON_TOPO,2);
+% 
+% % change the size of the matrix 
+% REV_COMMON_TOPO = REV_COMMON_TOPO'; 
+% 
+% % ODDBALL RARE 
+% OB_RARE_TOPO = GrandAverageEEG(:,2,:,:);
+% OB_RARE_TOPO = squeeze(mean(OB_RARE_TOPO,1));
+% OB_RARE_TOPO = OB_RARE_TOPO(:, timewindow300_400);
+% 
+% %average the voltages across channels
+% OB_RARE_TOPO = mean(OB_RARE_TOPO,2);
+% 
+% % change the size of the matrix 
+% OB_RARE_TOPO = OB_RARE_TOPO'; 
+% 
+% % REVERSAL RARE
+% REV_RARE_TOPO = GrandAverageEEG(:,4,:,:); 
+% REV_RARE_TOPO = squeeze(mean(REV_RARE_TOPO,1));
+% REV_RARE_TOPO = REV_RARE_TOPO(:, timewindow300_400);
+% 
+% %average the voltages across channels
+% REV_RARE_TOPO = mean(REV_RARE_TOPO,2);
+% 
+% % change the size of the matrix
+% REV_RARE_TOPO = REV_RARE_TOPO'; 
 
 %% Figures for condition differences (oddball vs. reversal)
 
@@ -587,7 +668,7 @@ rev_diff_topo = REV_RARE_TOPO - REV_COMMON_TOPO; % p= chp switch ; g = chp stead
 
 figure;
 subplot(1,2,1)
-elec = EEG.chanlocs(1:63); 
+elec = EEG.chanlocs(1:61); 
 topoplot(ob_diff_topo, elec);
 caxis([-3, 3]) 
 title('OB rare - OB common')
@@ -595,7 +676,7 @@ subplot(1,2,2)
 topoplot(rev_diff_topo,elec);
 caxis([-3, 3])
 title('REV rare - REV common')
-sgtitle('Condition differences')
+sgtitle('Condition Differences')
 
 %% Figures for trial type differences (common vs. rare)
 
@@ -606,7 +687,7 @@ rare_diff_topo = REV_RARE_TOPO - OB_RARE_TOPO;
 
 figure;
 subplot(1,2,1)
-elec = EEG.chanlocs(1:63); 
+elec = EEG.chanlocs(1:61); 
 topoplot(common_diff_topo, elec);
 caxis([-1.5, 1.5])
 title('REV common - OB common')
@@ -614,13 +695,13 @@ subplot(1,2,2)
 topoplot(rare_diff_topo,elec);
 caxis([-1.5, 1.5])
 title('REV rare - OB rare')
-sgtitle('Trial type differences')
+sgtitle('Trial Type Differences')
 
 %% Figures for condition & trial types (4 individual plots)
 
 figure;
 subplot(2,2,1)
-elec = EEG.chanlocs(1:63); 
+elec = EEG.chanlocs(1:61); 
 topoplot(OB_COMMON_TOPO, elec); %oddball common
 cbar('vert', 0,[-1, 1]*max(abs(OB_COMMON_TOPO)));
 title('Oddball Common')
