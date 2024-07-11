@@ -22,6 +22,7 @@
 
 cd '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar' % where data is saved (folder with last preprocessing step) 
 
+%%
 %Initializing loop to create grand averages, the loop will run 3 times
 for x = 1:3 %comment out for rerunning grandaverages individually
     x= string(x); %comment out for rerunning grandaverages individually
@@ -259,6 +260,10 @@ REV_COMMON_FZ = squeeze(mean(REV_COMMON_FZ, 1));
 REV_RARE_FZ = GrandAverageEEG(:,4,elec_fz,:); %reversal rare
 REV_RARE_FZ = squeeze(mean(REV_RARE_FZ, 1));
 
+% Define y-axis limits
+y_min = -4;
+y_max = 16;
+
 %Create association
 EEG = pop_loadset('2_07_ICAdone.set');
 
@@ -270,7 +275,8 @@ set(gca, 'YDir', 'normal')
 legend('Oddball Common', 'Oddball Rare', 'Reversal Common', 'Reversal Rare')
 xlabel('time (ms)')
 ylabel('uV')
-xlim([-200 1000])
+xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %%
 %Difference value plot for Fz
@@ -293,6 +299,7 @@ legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %Plot trial type difference values
 figure;
@@ -303,6 +310,7 @@ legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %%
 %Cz:
@@ -319,6 +327,10 @@ REV_COMMON_CZ = squeeze(mean(REV_COMMON_CZ, 1));
 REV_RARE_CZ = GrandAverageEEG(:,4,elec_cz,:);
 REV_RARE_CZ = squeeze(mean(REV_RARE_CZ, 1));
 
+% Define y-axis limits
+y_min = -4;
+y_max = 16;
+
 % Cz Plot
 figure;
 plot(EEG.times, OB_COMMON_CZ, 'b', EEG.times, OB_RARE_CZ, '--b', EEG.times, REV_COMMON_CZ, 'r', EEG.times, REV_RARE_CZ, '--r')
@@ -327,7 +339,8 @@ set(gca, 'YDir', 'normal')
 legend('Oddball Common', 'Oddball Rare', 'Reversal Common', 'Reversal Rare')
 xlabel('time (ms)')
 ylabel('uV')
-xlim([-200 1000])
+xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %%
 %Difference value plot for Cz
@@ -350,6 +363,7 @@ legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %Plot trial type difference values
 figure;
@@ -360,6 +374,7 @@ legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %%
 %Pz:
@@ -376,6 +391,10 @@ REV_COMMON_PZ = squeeze(mean(REV_COMMON_PZ, 1));
 REV_RARE_PZ = GrandAverageEEG(:,4,elec_pz,:);
 REV_RARE_PZ = squeeze(mean(REV_RARE_PZ, 1));
 
+% Define y-axis limits
+y_min = -4;
+y_max = 16;
+
 % Pz Plot
 figure;
 plot(EEG.times, OB_COMMON_PZ, 'b', EEG.times, OB_RARE_PZ, '--b', EEG.times, REV_COMMON_PZ, 'r', EEG.times, REV_RARE_PZ, '--r')
@@ -385,6 +404,8 @@ legend('Oddball Common', 'Oddball Rare', 'Reversal Common', 'Reversal Rare')
 xlabel('time (ms)')
 ylabel('uV')
 xlim([-200 1000])
+ylim([y_min y_max]);
+
 %%
 %Difference value plot for Pz
 
@@ -406,6 +427,7 @@ legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %Plot trial type difference values
 figure;
@@ -416,6 +438,8 @@ legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
+
 %%
 
 %ROI Analysis using Cz, Fz, and Pz; I'm unsure if we want this so I'm just going to make it anyways
@@ -436,6 +460,10 @@ REV_RARE_ROI = GrandAverageEEG(:,4,elec_roi,:);
 REV_RARE_ROI = squeeze(mean(REV_RARE_ROI, 1));
 REV_RARE_ROI = squeeze(mean(REV_RARE_ROI, 1));
 
+% Define y-axis limits
+y_min = -4;
+y_max = 16;
+
 % ROI Plot
 figure;
 plot(EEG.times, OB_COMMON_ROI, 'b', EEG.times, OB_RARE_ROI, '--b', EEG.times, REV_COMMON_ROI, 'r', EEG.times, REV_RARE_ROI, '--r')
@@ -444,7 +472,8 @@ set(gca, 'YDir', 'normal')
 legend('Oddball Common', 'Oddball Rare', 'Reversal Common', 'Reversal Rare')
 xlabel('time (ms)')
 ylabel('uV')
-xlim([-200 1000])
+xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %%
 %Difference value plot for ROI
@@ -467,6 +496,7 @@ legend('Oddball (Rare - Common)', 'Reversal (Rare - Common)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %Plot trial type difference values
 figure;
@@ -477,6 +507,7 @@ legend('Common (Reversal - Oddball)', 'Rare (Reversal - Oddball)');
 xlabel('Time (ms)');
 ylabel('uV');
 xlim([-200 1000]);
+ylim([y_min y_max]);
 
 %do this 4 times for each of the conditions if you want 4 plots. colors: b
 %blue, --b dashed blue, r red, --r dashed red; YDir - have the y axis
@@ -583,27 +614,31 @@ figure;
 
 % Subplot for Oddball Common
 subplot(2, 2, 1);
-topoplot(OB_COMMON_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+topoplot(OB_COMMON_TOPO, EEG.chanlocs, 'maplimits', [-8 8]);
 title('Oddball Common');
 colorbar;
+caxis([-8 8]);
 
 % Subplot for Reversal Common
 subplot(2, 2, 2);
-topoplot(REV_COMMON_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+topoplot(REV_COMMON_TOPO, EEG.chanlocs, 'maplimits', [-8 8]);
 title('Reversal Common');
 colorbar;
+caxis([-8 8]);
 
 % Subplot for Oddball Rare
 subplot(2, 2, 3);
-topoplot(OB_RARE_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+topoplot(OB_RARE_TOPO, EEG.chanlocs, 'maplimits', [-8 8]);
 title('Oddball Rare');
 colorbar;
+caxis([-8 8]);
 
 % Subplot for Reversal Rare
 subplot(2, 2, 4);
-topoplot(REV_RARE_TOPO, EEG.chanlocs, 'maplimits', 'maxmin');
+topoplot(REV_RARE_TOPO, EEG.chanlocs, 'maplimits', [-8 8]);
 title('Reversal Rare');
 colorbar;
+caxis([-8 8]);
 
 % Set the overall title for the figure
 sgtitle('Topographies for each condition (Time Window: 300-400 ms)');
@@ -667,16 +702,21 @@ ob_diff_topo = OB_RARE_TOPO - OB_COMMON_TOPO;
 rev_diff_topo = REV_RARE_TOPO - REV_COMMON_TOPO; % p= chp switch ; g = chp steady
 
 figure;
+%Subplot for Oddball Difference
 subplot(1,2,1)
 elec = EEG.chanlocs(1:61); 
 topoplot(ob_diff_topo, elec);
-caxis([-3, 3]) 
-title('OB rare - OB common')
+caxis([-8 8]);
+colorbar; 
+title('OB rare - OB common');
+
+%Subplot for Reversal Difference
 subplot(1,2,2)
 topoplot(rev_diff_topo,elec);
-caxis([-3, 3])
-title('REV rare - REV common')
-sgtitle('Condition Differences')
+caxis([-8 8]);
+colorbar;
+title('REV rare - REV common');
+sgtitle('Condition Differences');
 
 %% Figures for trial type differences (common vs. rare)
 
@@ -686,54 +726,58 @@ common_diff_topo = REV_COMMON_TOPO - OB_COMMON_TOPO;
 rare_diff_topo = REV_RARE_TOPO - OB_RARE_TOPO;
 
 figure;
+%Subplot for common difference
 subplot(1,2,1)
 elec = EEG.chanlocs(1:61); 
 topoplot(common_diff_topo, elec);
-caxis([-1.5, 1.5])
+caxis([-8 8]);
+colorbar;
 title('REV common - OB common')
+
+%Subplot for rare difference
 subplot(1,2,2)
 topoplot(rare_diff_topo,elec);
-caxis([-1.5, 1.5])
+caxis([-8 8]);
+colorbar;
 title('REV rare - OB rare')
 sgtitle('Trial Type Differences')
 
 %% Figures for condition & trial types (4 individual plots)
 
+%Subplot for oddball common
 figure;
-subplot(2,2,1)
+
+% Subplot for Oddball Common
+subplot(2, 2, 1);
 elec = EEG.chanlocs(1:61); 
-topoplot(OB_COMMON_TOPO, elec); %oddball common
-cbar('vert', 0,[-1, 1]*max(abs(OB_COMMON_TOPO)));
-title('Oddball Common')
-subplot(2,2,2)
-topoplot(OB_RARE_TOPO, elec); %oddball rare
-cbar('vert', 0,[-1, 1]*max(abs(OB_RARE_TOPO)));
-title('Oddball Rare')
-subplot(2,2,3)
-topoplot(REV_COMMON_TOPO, elec); %reversal common
-cbar('vert', 0,[-1, 1]*max(abs(REV_COMMON_TOPO)));
-title('Reversal Common')
-subplot(2,2,4)
-topoplot(REV_RARE_TOPO, elec); %reversal rare
-cbar('vert', 0,[-1, 1]*max(abs(REV_RARE_TOPO)));
-title('Reversal Rare')
-sgtitle('300-400ms')
+topoplot(OB_COMMON_TOPO, elec);
+caxis([-8 8]);
+colorbar('vert');
+title('Oddball Common');
 
+% Subplot for Oddball Rare
+subplot(2, 2, 2);
+topoplot(OB_RARE_TOPO, elec);
+caxis([-8 8]);
+colorbar('vert');
+title('Oddball Rare');
 
-%Exploratory analyses ideas: 
-% Option1: Look at different ERPs, 2nd ERP analyses (different time when another stimuli is shown,
-% e.g. the cue [Brain reacts differently to cue after a surprising stimuli
-% has been shown]. e.g. choice [something insteresting happens when you
-% make a choice in the brain). This analyses doesn't have to be fully
-% hypotheses driven. Timewindow and all have to be reported ofc. 
-%If we do that: make the time window that it doesn't touch any other
-%process/stimulus
-%option 2: Compare ERP and behavioral data. Ask Alexa for behavioral data.
-%Correlate the data. [If you are surprised in the outcome, you should
-%change your behavior]. [I'm in favor of this option, as be can reason this
-%since Matt Nassar (2019) and colleagues did this too.] 
-%We need 2. script to show Alexa that we did it correctly. 
-%Option 3: any other thing we want to do. 
+% Subplot for Reversal Common
+subplot(2, 2, 3);
+topoplot(REV_COMMON_TOPO, elec);
+caxis([-8 8]);
+colorbar('vert');
+title('Reversal Common');
 
-%For our introduction: What we do is.... [maybe a replication? maybe
-%testing a simplifyed paradigma to the canon task?]
+% Subplot for Reversal Rare
+subplot(2, 2, 4);
+topoplot(REV_RARE_TOPO, elec);
+caxis([-8 8]);
+colorbar('vert');
+title('Reversal Rare');
+
+% Set the overall title for the figure
+sgtitle('300-400ms');
+
+% Adjust the figure size and position if necessary
+set(gcf, 'Position', [100, 100, 1200, 600]);
