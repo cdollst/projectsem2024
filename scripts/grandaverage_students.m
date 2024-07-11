@@ -261,8 +261,8 @@ REV_RARE_FZ = GrandAverageEEG(:,4,elec_fz,:); %reversal rare
 REV_RARE_FZ = squeeze(mean(REV_RARE_FZ, 1));
 
 % Define y-axis limits
-y_min = -4;
-y_max = 16;
+y_min = -8;
+y_max = 10;
 
 %Create association
 EEG = pop_loadset('2_07_ICAdone.set');
@@ -328,8 +328,8 @@ REV_RARE_CZ = GrandAverageEEG(:,4,elec_cz,:);
 REV_RARE_CZ = squeeze(mean(REV_RARE_CZ, 1));
 
 % Define y-axis limits
-y_min = -4;
-y_max = 16;
+y_min = -8;
+y_max = 10;
 
 % Cz Plot
 figure;
@@ -392,8 +392,8 @@ REV_RARE_PZ = GrandAverageEEG(:,4,elec_pz,:);
 REV_RARE_PZ = squeeze(mean(REV_RARE_PZ, 1));
 
 % Define y-axis limits
-y_min = -4;
-y_max = 16;
+y_min = -8;
+y_max = 10;
 
 % Pz Plot
 figure;
@@ -461,8 +461,8 @@ REV_RARE_ROI = squeeze(mean(REV_RARE_ROI, 1));
 REV_RARE_ROI = squeeze(mean(REV_RARE_ROI, 1));
 
 % Define y-axis limits
-y_min = -4;
-y_max = 16;
+y_min = -8;
+y_max = 10;
 
 % ROI Plot
 figure;
