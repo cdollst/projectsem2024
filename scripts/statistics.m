@@ -3,85 +3,57 @@
 
 cd '/Users/colleen/Desktop/sose-24/Project/eeg-data-class-project-seminar'
 
-%%
-%Create association
+% Load the EEG data
+load('GrandAverageEEG1.mat'); % Update the file path and name as needed
+
+% Load the EEG set (assuming this is necessary for context or timing information)
 EEG = pop_loadset('2_07_ICAdone.set');
 
 %%
-% Define the time window you are interested in
-time_window = find(EEG.times >= 300 & EEG.times <= 400);  % specific time window you want to extract. recall that this is not in ms, but in timepoints in your EEG struct
+% Define electrode and time window for analysis
+electrode_of_interest = 12; % Pz; adjust as needed
+time_window = find(EEG.times >= 300 & EEG.times <= 400);
 
-% Define the specific electrode you are interested in
-%elec = 2; %Fz
-%elec = 23; %Cz
-elec = 12; %Pz 
+% Number of subjects and conditions
+num_subjects = 6; 
+num_conditions = 4;
 
-%%
-% Preallocate matrix for storing data
-num_subjects = 6; % Update this according to your actual number of subjects
-num_conditions = 4; % As per the design: 'oddball_common', 'oddball_rare', 'reversal_common', 'reversal_rare'
+% Preallocate a large enough cell array to store the data
+data_to_save = cell(num_subjects * num_conditions * length(time_window), 4);
 
-% Initialize an empty array to store extracted data for each condition
-extracted_data = nan(num_subjects, num_conditions);
-
-for subj = 1:num_subjects
-    for cond = 1:num_conditions
-        % Extract the mean value in the specified time window for each condition
-        condition_data = squeeze(mean(GrandAverageEEG(subj, cond, elec, time_window), 4));
-        extracted_data(subj, cond) = mean(condition_data);
-    end
-end
-%%
-% Reshape the extracted data appropriately for ANOVA
-% Each column in extracted_data represents a condition, and each row represents a subject
-[~, table, stats] = anova1(extracted_data);
-
-% Display the ANOVA table in the MATLAB Command Window
-disp(table);
-
-%%
-% Perform paired t-tests for each pair of conditions
-for i = 1:num_conditions
-    for j = i+1:num_conditions
-        [h, p, ci, stats] = ttest(extracted_data(:,i), extracted_data(:,j));
-        fprintf('Condition %d vs Condition %d: t(%d) = %.3f, p = %.4f\n', ...
-                i, j, stats.df, stats.tstat, p);
-    end
-end
-%%
-%elec = [43, 12, 51]; % ROI
-
-% Get the indices of the time window in the GrandAverageEEG array
- 
-% Preallocate cell array to store the data
-% We will store data in the format: Subject, Condition, Time, Value
-data_to_save = {};
+% Initialize a counter for the cell array index
+counter = 1;
 
 % Iterate over subjects
-for subject = 1 % 1:6 % you can also keep the original subject IDs, by using the method used in the other scripts.
+for subject = 1:num_subjects
     % Iterate over conditions
-    for condition = 1:4 %change depending on whatever participants you're looking at (i.e., 1:6)
+    for condition = 1:num_conditions
         % Extract the data for the current subject, condition, and the specific channel at the specified time window
-        
-        values = squeeze(mean(GrandAverageEEG(subject, condition, elec, time_window),3)); %3 is the dimension across which you're squeezing and meaning,doing this, removes the electrode, so it's not per-electrode, but the average
+        values = squeeze(mean(GrandAverageEEG(subject, condition, electrode_of_interest, time_window), 3));
         
         % Add the data to the cell array
         for t = 1:length(time_window)
-            data_to_save = [data_to_save; {subject, condition, time_window(t), values(t)}];
+            data_to_save{counter, 1} = subject;
+            data_to_save{counter, 2} = condition;
+            data_to_save{counter, 3} = EEG.times(time_window(t));
+            data_to_save{counter, 4} = values(t);
+            counter = counter + 1;
         end
     end
 end
 
-% Convert the cell array to a table, has to be called a table for matlab to
-% export it to csv
-data_table = cell2table(data_to_save, 'VariableNames', {'Subject', 'Condition', 'Time_point', 'Value'}); %variable names at the top of the table are subject, condition, time point, and value, because you're averaging across electrodes, same as grandaverage
+% Convert the cell array to a table
+data_table = cell2table(data_to_save, 'VariableNames', {'Subject', 'Condition', 'Time_point', 'Value'});
 
 % Save the table as a CSV file
-writetable(data_table, 'extracted_data_300-400.csv'); %writetable function saves the table you just created
+writetable(data_table, 'extracted_data_300-400.csv');
 
-disp('Data has been extracted and saved to extracted_data.csv');
+disp('Data has been extracted and saved to extracted_data_300-400.csv');
 
-%if you open the csv now, everything is separated by commas into one sheet,
-%you can import it into R now, you should have the columns: subject, condition,
-%time_point, and value (for that time point what is the value in
-%micro-volts?)
+%The ID of the subject. This ranges from 1 to the total number of subjects (e.g., 1 to 6).
+
+%Condition: The ID of the experimental condition. This ranges from 1 to the total number of conditions (e.g., 1 to 4).
+
+%Time_point: The specific time point (in milliseconds) within the 300-400 ms time window for which the value is recorded.
+
+%Value: The averaged EEG signal amplitude at the Pz electrode for the given subject, condition, and time point.
