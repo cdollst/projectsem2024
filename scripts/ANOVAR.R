@@ -86,6 +86,12 @@ summary_data <- data300 %>%
     se_value = sd(Value, na.rm = TRUE) / sqrt(n())
   )
 
+# Print the summary data
+print(summary_data)
+
+# Save the summary data to a CSV file
+write_csv(summary_data, 'summary_data.csv')
+
 # Create the bar plot using ggplot2
 barplot <- ggplot(summary_data, aes(x = cond, y = mean_value, fill = trialtype)) +
   geom_bar(stat = "identity", position = position_dodge()) +
