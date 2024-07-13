@@ -170,17 +170,56 @@ print(oddball_ttest)
 reversal_ttest <- t.test(Value ~ trialtype, data = reversal_data, paired = TRUE)
 print(reversal_ttest)
 
-# Save the post-hoc test results
+# Combine post-hoc test results into a data frame for plotting
 posthoc_results <- tibble(
-  Condition = c("oddball", "reversal"),
-  t_statistic = c(oddball_ttest$statistic, reversal_ttest$statistic),
-  df = c(oddball_ttest$parameter, reversal_ttest$parameter),
-  p_value = c(oddball_ttest$p.value, reversal_ttest$p.value)
+  Condition = rep(c("oddball", "reversal"), each = 2),
+  TrialType = rep(c("common", "rare"), 2),
+  Mean = c(mean(oddball_data %>% filter(trialtype == "common") %>% pull(Value)),
+           mean(oddball_data %>% filter(trialtype == "rare") %>% pull(Value)),
+           mean(reversal_data %>% filter(trialtype == "common") %>% pull(Value)),
+           mean(reversal_data %>% filter(trialtype == "rare") %>% pull(Value))),
+  SE = c(sd(oddball_data %>% filter(trialtype == "common") %>% pull(Value)) / sqrt(nrow(oddball_data %>% filter(trialtype == "common"))),
+         sd(oddball_data %>% filter(trialtype == "rare") %>% pull(Value)) / sqrt(nrow(oddball_data %>% filter(trialtype == "rare"))),
+         sd(reversal_data %>% filter(trialtype == "common") %>% pull(Value)) / sqrt(nrow(reversal_data %>% filter(trialtype == "common"))),
+         sd(reversal_data %>% filter(trialtype == "rare") %>% pull(Value)) / sqrt(nrow(reversal_data %>% filter(trialtype == "rare"))))
 )
-
-write_csv(posthoc_results, 'posthoc_results.csv')
 
 # Print the post-hoc test results
 print(posthoc_results)
 
+# Save the post-hoc test results
+write_csv(posthoc_results, 'posthoc_results_combined.csv')
+
+# Create a bar plot to visualize the paired post-hoc t-test results
+posthoc_plot <- ggplot(posthoc_results, aes(x = TrialType, y = Mean, fill = TrialType)) +
+  geom_bar(stat = "identity", position = position_dodge(), width = 0.7) +
+  geom_errorbar(aes(ymin = Mean - SE, ymax = Mean + SE),
+                width = 0.2, position = position_dodge(0.7)) +
+  facet_wrap(~Condition) +
+  labs(
+    title = "Mean EEG Amplitudes by Trial Type for Each Condition",
+    x = "Trial Type",
+    y = "Mean EEG Amplitude (µV)"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1")
+
+# Print the post-hoc plot
+print(posthoc_plot)
+
+# Create a boxplot to visualize the paired post-hoc t-test results
+boxplot <- ggplot(data300, aes(x = interaction(cond, trialtype), y = Value, fill = trialtype)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, size = 1, alpha = 0.6) +
+  labs(
+    title = "EEG Amplitudes by Condition and Trial Type",
+    x = "Condition and Trial Type",
+    y = "EEG Amplitude (µV)"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Print the box plot
+print(boxplot)
 
