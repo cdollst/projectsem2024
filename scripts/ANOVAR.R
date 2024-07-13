@@ -155,3 +155,32 @@ rain_plot <- ggplot(data300, aes(x = interaction(cond, trialtype), y = Value, co
 # Print the rain plot
 print(rain_plot)
 
+#I found a main effect of trial type with my data/grandaverage, so I will conduct a post-hoc test to look at the differences between trial types more
+
+#### Post-hoc paired t-tests for each condition:
+# Filter data for each condition
+oddball_data <- data300 %>% filter(cond == "oddball")
+reversal_data <- data300 %>% filter(cond == "reversal")
+
+# Paired t-test for oddball condition
+oddball_ttest <- t.test(Value ~ trialtype, data = oddball_data, paired = TRUE)
+print(oddball_ttest)
+
+# Paired t-test for reversal condition
+reversal_ttest <- t.test(Value ~ trialtype, data = reversal_data, paired = TRUE)
+print(reversal_ttest)
+
+# Save the post-hoc test results
+posthoc_results <- tibble(
+  Condition = c("oddball", "reversal"),
+  t_statistic = c(oddball_ttest$statistic, reversal_ttest$statistic),
+  df = c(oddball_ttest$parameter, reversal_ttest$parameter),
+  p_value = c(oddball_ttest$p.value, reversal_ttest$p.value)
+)
+
+write_csv(posthoc_results, 'posthoc_results.csv')
+
+# Print the post-hoc test results
+print(posthoc_results)
+
+
